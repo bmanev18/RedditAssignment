@@ -15,15 +15,9 @@ public class UserController:ControllerBase
         _userLogic = userLogic;
     }
 
-<<<<<<< Updated upstream
-    
-    [HttpPost]
-    public async Task<ActionResult<User>> CreateAsync(User user)
-=======
 
     [HttpGet("{username}")]
     public async Task<ActionResult<User>> GetAsync([FromRoute] string username)
->>>>>>> Stashed changes
     {
         try
         {
