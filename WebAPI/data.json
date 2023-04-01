@@ -1,15 +1,26 @@
 {
   "Users": [
     {
-      "Username": "Rado",
+      "Username": "test",
       "Password": "test",
-      "Email": "rado@test"
+      "Email": "test"
     },
     {
-      "Username": "Bozhidar",
-      "Password": "test",
-      "Email": "bojo@test"
+      "Username": "test1",
+      "Password": "test1",
+      "Email": "test1"
     }
   ],
-  "Posts": []
+  "Posts": [
+    {
+      "Id": 1,
+      "Owner": {
+        "Username": "test",
+        "Password": "test",
+        "Email": "test"
+      },
+      "Title": "posttitle",
+      "Body": "postbody"
+    }
+  ]
 }
