@@ -16,7 +16,7 @@ public class UserController:ControllerBase
     }
 
     
-    [HttpPost]
+    /*[HttpPost]
     public async Task<ActionResult<User>> CreateAsync(User user)
     {
         try
@@ -29,6 +29,6 @@ public class UserController:ControllerBase
             Console.WriteLine(e);
             return StatusCode(500, e.Message);
         }
-    }
+    }*/
     
 }

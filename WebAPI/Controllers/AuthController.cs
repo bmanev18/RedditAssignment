@@ -15,12 +15,12 @@ namespace WebAPI.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration _config;
-    private readonly IAuthService _AuthService;
+    private readonly IAuthService _authService;
 
     public AuthController(IConfiguration config, IAuthService authService)
     {
         _config = config;
-        _AuthService = authService;
+        _authService = authService;
     }
 
     private List<Claim> GenerateClaims(User user)
@@ -63,13 +63,28 @@ public class AuthController : ControllerBase
     {
         try
         {
-            User user = await _AuthService.ValidateUser(userLoginDto.Username, userLoginDto.Password);
+            User user = await _authService.ValidateUserAsync(userLoginDto.Username, userLoginDto.Password);
             string token = GenerateJwt(user);
 
             return Ok(token);
         }
         catch (Exception e)
         {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost, Route("register")]
+    public async Task<ActionResult> Register([FromBody] User user)
+    {
+        try
+        {
+            await _authService.RegisterUserAsync(user);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
             return BadRequest(e.Message);
         }
     }

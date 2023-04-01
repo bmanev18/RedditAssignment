@@ -1,21 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Application.DaoInterfaces;
+using FileData.DAOs;
 using Shared.Models;
 
 namespace WebAPI.Services;
 
 public class AuthService : IAuthService
 {
-    private readonly IList<User> users = new List<User>();
+    private readonly IUserDao _userDao;
 
-    public AuthService()
+    public AuthService(IUserDao dao)
     {
-        loadInitial();
+        _userDao = dao;
+        //loadInitial();
     }
 
 
-    public Task<User> ValidateUser(string username, string password)
-    {
-        User? existingUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+    public async Task<User>  ValidateUserAsync(string username, string password)
+    { 
+        User? existingUser = await _userDao.GetByUsernameAsync(username);
 
         if (existingUser == null)
         {
@@ -27,7 +30,7 @@ public class AuthService : IAuthService
             throw new Exception("Password mismatch");
         }
 
-        return Task.FromResult(existingUser);
+        return await Task.FromResult(existingUser);
     }
 
     public Task RegisterUserAsync(User user)
@@ -41,23 +44,21 @@ public class AuthService : IAuthService
         {
             throw new ValidationException("Password cannot be null");
         }
-        
-        // Todo remove list when file saving is added
-        
-        users.Add(user);
+      
+        _userDao.CreateAsync(user);
         return Task.CompletedTask;
     }
 
     private void loadInitial()
     {
-        users.Add(new User
+        _userDao.CreateAsync(new User
         {
             Email = "trmo@via.dk",
             Password = "onetwo3FOUR",
             Username = "trmo",
         });
 
-        users.Add(new User
+        _userDao.CreateAsync(new User
         {
             Email = "jakob@gmail.com",
             Password = "password",
