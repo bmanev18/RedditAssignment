@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-{"Users":[{"Username":"Rado","Password":"test","Email":"rado@test"}],"Posts":[]}
-=======
 {
   "Users": [
     {
@@ -16,4 +13,3 @@
   ],
   "Posts": []
 }
->>>>>>> Stashed changes

@@ -15,7 +15,6 @@ public class AuthService : IAuthService
         //loadInitial();
     }
 
-
     public async Task<User> ValidateUserAsync(string username, string password)
     {
         User? existingUser = await _userDao.GetByUsernameAsync(username);
@@ -61,6 +60,9 @@ public class AuthService : IAuthService
         {
             throw new Exception("Username must be less than 16 characters!");
         }
+      
+        _userDao.CreateAsync(user);
+        return Task.CompletedTask;
     }
 
     private void loadInitial()
