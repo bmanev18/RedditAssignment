@@ -1,1 +1,19 @@
+<<<<<<< Updated upstream
 {"Users":[{"Username":"Rado","Password":"test","Email":"rado@test"}],"Posts":[]}
+=======
+{
+  "Users": [
+    {
+      "Username": "Rado",
+      "Password": "test",
+      "Email": "rado@test"
+    },
+    {
+      "Username": "Bozhidar",
+      "Password": "test",
+      "Email": "bojo@test"
+    }
+  ],
+  "Posts": []
+}
+>>>>>>> Stashed changes

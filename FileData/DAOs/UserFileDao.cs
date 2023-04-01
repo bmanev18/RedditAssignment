@@ -25,4 +25,16 @@ public class UserFileDao : IUserDao
             _context.Users.FirstOrDefault(u => u.Username.Equals(userName, StringComparison.OrdinalIgnoreCase));
         return Task.FromResult(existing);
     }
+
+    public async Task DeleteAsync(string username)
+    {
+        User? existing = _context.Users.FirstOrDefault(user => user.Username.Equals(username));
+        if (existing == null)
+        {
+            throw new Exception($"{username} doesn't exist");
+        }
+
+        _context.Users.Remove(existing);
+        _context.SaveChanges();
+    }
 }

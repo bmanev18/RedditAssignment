@@ -15,14 +15,20 @@ public class UserController:ControllerBase
         _userLogic = userLogic;
     }
 
+<<<<<<< Updated upstream
     
     [HttpPost]
     public async Task<ActionResult<User>> CreateAsync(User user)
+=======
+
+    [HttpGet("{username}")]
+    public async Task<ActionResult<User>> GetAsync([FromRoute] string username)
+>>>>>>> Stashed changes
     {
         try
         {
-            User created = await _userLogic.CreateAsync(user);
-            return Created($"/users/{created.Username}", created);
+            User existing = await _userLogic.GetAsync(username);
+            return Ok(existing);
         }
         catch (Exception e)
         {
@@ -31,4 +37,19 @@ public class UserController:ControllerBase
         }
     }
     
+    [HttpDelete("{username}")]
+    public async Task<ActionResult<User>> DeleteAsync([FromRoute] string username)
+    {
+        try
+        {
+            await _userLogic.DeleteAsync(username);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }
