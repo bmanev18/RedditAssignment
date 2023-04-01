@@ -4,5 +4,6 @@ namespace Application.LogicInterfaces;
 
 public interface IUserLogic
 {
-    Task<User> CreateAsync(User user);
+    Task<User> GetAsync(string username);
+    Task DeleteAsync(string username);
 }

@@ -13,29 +13,25 @@ public class UserLogic : IUserLogic
         _userDao = userDao;
     }
 
-    public async Task<User> CreateAsync(User user)
+    public async Task<User> GetAsync(string username)
     {
-        User? existing = await _userDao.GetByUsernameAsync(user.Username);
-        if (existing != null)
+        User? existing = await _userDao.GetByUsernameAsync(username);
+        if (existing == null)
         {
-            throw new Exception("Username already taken");
+            throw new Exception("User doesn't exist");
         }
-//        ValidateData(user);
-        User toCreate = new User()
-        {
-            Email = user.Email,
-            Password = user.Password,
-            Username = user.Username
-        };
-        User created = await _userDao.CreateAsync(toCreate);
-        return created;
+
+        return existing;
     }
 
-    public static void ValidateData(User user)
+    public async Task DeleteAsync(string username)
     {
-        if (user.Username.Length < 3)
-            throw new Exception("Username must be at Least 3 characters!");
-        if (user.Username.Length > 15)
-            throw new Exception("Username must be less than 16 characters!");
+        User? existing = await _userDao.GetByUsernameAsync(username);
+        if (existing == null)
+        {
+            throw new Exception($"{username} doesn't exist");
+        }
+
+        await _userDao.DeleteAsync(username);
     }
 }

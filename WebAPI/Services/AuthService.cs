@@ -15,9 +15,8 @@ public class AuthService : IAuthService
         //loadInitial();
     }
 
-
-    public async Task<User>  ValidateUserAsync(string username, string password)
-    { 
+    public async Task<User> ValidateUserAsync(string username, string password)
+    {
         User? existingUser = await _userDao.GetByUsernameAsync(username);
 
         if (existingUser == null)
@@ -35,14 +34,31 @@ public class AuthService : IAuthService
 
     public Task RegisterUserAsync(User user)
     {
+        ValidateData(user);
+        _userDao.CreateAsync(user);
+        return Task.CompletedTask;
+    }
+
+    private void ValidateData(User user)
+    {
         if (string.IsNullOrEmpty(user.Username))
         {
             throw new ValidationException("Username cannot be null");
         }
 
+        if (user.Username.Length < 3)
+        {
+            throw new Exception("Username must be at Least 3 characters!");
+        }
+
         if (string.IsNullOrEmpty(user.Password))
         {
             throw new ValidationException("Password cannot be null");
+        }
+
+        if (user.Username.Length > 15)
+        {
+            throw new Exception("Username must be less than 16 characters!");
         }
       
         _userDao.CreateAsync(user);

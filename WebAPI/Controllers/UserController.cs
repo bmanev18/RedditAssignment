@@ -15,20 +15,35 @@ public class UserController:ControllerBase
         _userLogic = userLogic;
     }
 
-    
-    /*[HttpPost]
-    public async Task<ActionResult<User>> CreateAsync(User user)
+
+
+     public async Task<ActionResult<User>> GetAsync([FromRoute] string username)
     {
         try
         {
-            User created = await _userLogic.CreateAsync(user);
-            return Created($"/users/{created.Username}", created);
+            User existing = await _userLogic.GetAsync(username);
+            return Ok(existing);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             return StatusCode(500, e.Message);
         }
-    }*/
+    }
     
+    [HttpDelete("{username}")]
+    public async Task<ActionResult<User>> DeleteAsync([FromRoute] string username)
+    {
+        try
+        {
+            await _userLogic.DeleteAsync(username);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }
