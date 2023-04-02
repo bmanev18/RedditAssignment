@@ -2,4 +2,4 @@
 POST https://localhost:7265/auth/login
 Content-Type: application/json
 
-{ "Username" : "trmo", "Password" : "onetwo3FOUR" }
+{ "Username" : "test", "Password" : "test" }
