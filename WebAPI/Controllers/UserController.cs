@@ -15,9 +15,7 @@ public class UserController:ControllerBase
         _userLogic = userLogic;
     }
 
-
-    
-[HttpGet("{username}")]
+    [HttpGet("{username}")]
         public async Task<ActionResult<User>> GetAsync([FromRoute] string username)
     {
         try

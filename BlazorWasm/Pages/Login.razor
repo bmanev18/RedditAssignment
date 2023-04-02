@@ -1,8 +1,7 @@
 ﻿@page "/Login"
 @using BlazorWasm.Services
 @inject IAuthService AuthService
-@inject NavigationManager navMgr
-
+@inject NavigationManager NavMgr
 
 <AuthorizeView>
     <NotAuthorized>
@@ -26,6 +25,7 @@
             }
             <div class="field">
                 <button class="loginbtn" @onclick="LoginAsync">Log in</button>
+                <button class="loginbtn" @onclick="ForwardToRegister">Register</button>
             </div>
         </div>
     </NotAuthorized>
@@ -47,13 +47,18 @@
         try
         {
             await AuthService.LoginAsync(_userName, _password);
-            navMgr.NavigateTo("/");
+            NavMgr.NavigateTo("/");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             _errorLabel = $"Error: {e.Message}";
         }
+    }
+
+    private void ForwardToRegister()
+    {
+        NavMgr.NavigateTo("https://localhost:7194/register");
     }
 
 }

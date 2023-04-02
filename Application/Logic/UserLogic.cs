@@ -13,6 +13,7 @@ public class UserLogic : IUserLogic
         _userDao = userDao;
     }
 
+
     public async Task<User> GetAsync(string username)
     {
         User? existing = await _userDao.GetByUsernameAsync(username);

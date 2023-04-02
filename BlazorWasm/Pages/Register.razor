@@ -1,0 +1,55 @@
+﻿@page "/Register"
+@using BlazorWasm.Services
+@inject IAuthService AuthService
+@inject NavigationManager NavMgr
+
+<div class="card">
+    <h3>Register User</h3>
+    <div class="field">
+        <label>User name:</label>
+        <input type="text" @bind="_userName"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">Password:</label>
+        <input type="password" @bind="_password"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">Email:</label>
+        <input type="text" @bind="_email"/>
+    </div>
+    @if (!string.IsNullOrEmpty(_errorLabel))
+    {
+        <div class="field">
+            <label style="color: red">
+                @_errorLabel
+            </label>
+        </div>
+    }
+    <div class="field">
+        <button class="registerbtn" @onclick="RegisterAsync">Register</button>
+    </div>
+</div>
+
+@code {
+    private string _userName;
+    private string _password;
+    private string _email;
+    private string _errorLabel;
+
+    private async Task RegisterAsync()
+    {
+        _errorLabel = "";
+
+        try
+        {
+            await AuthService.RegisterAsync(_userName, _password, _email);
+            NavMgr.NavigateTo("/login");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            _errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+}

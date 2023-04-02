@@ -14,6 +14,11 @@ public class UserFileDao : IUserDao
 
     public Task<User> CreateAsync(User user)
     {
+        Task<User?> existing = GetByUsernameAsync(user.Username);
+        if (existing.Result!=null)
+        {
+            throw new Exception($"{user.Username} already exists in the System");
+        }
         _context.Users.Add(user);
         _context.SaveChanges();
         return Task.FromResult(user);
@@ -26,15 +31,16 @@ public class UserFileDao : IUserDao
         return Task.FromResult(existing);
     }
 
-    public async Task DeleteAsync(string username)
+    public Task DeleteAsync(string username)
     {
-        User? existing = _context.Users.FirstOrDefault(user => user.Username.Equals(username));
-        if (existing == null)
+        Task<User?> existing = GetByUsernameAsync(username);
+        if (existing.Result == null)
         {
             throw new Exception($"{username} doesn't exist");
         }
 
-        _context.Users.Remove(existing);
+        _context.Users.Remove(existing.Result);
         _context.SaveChanges();
+        return Task.CompletedTask;
     }
 }
