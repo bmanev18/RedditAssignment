@@ -37,10 +37,10 @@ public class PostFileDao : IPostDao
             result = _context.Posts.Where(post => post.Owner.Username.Equals(dto.username));
         }
 
-        // if (dto.username != null)
-        // {
-        //     result = result.Where(post => post.Owner.Username.Equals(dto.username));
-        // }
+        if (dto.username != null)
+        {
+             result = result.Where(post => post.Owner.Username.Equals(dto.username));
+        }
 
         if (!string.IsNullOrEmpty(dto.title))
         {

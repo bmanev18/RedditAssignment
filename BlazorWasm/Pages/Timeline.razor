@@ -1,0 +1,62 @@
+﻿@page "/Timeline"
+@using global::Shared.Models
+@using HttpClients.Interfaces
+@using System.ComponentModel.DataAnnotations
+@inject IPostService PostService
+<h3>Timeline</h3>
+
+@if (posts == null)
+{
+    <label> @message </label>
+}
+else if (!posts.Any())
+{
+    <label> No Posts to Display </label>
+}
+else
+{
+    <div class="posts-container">
+    @foreach (var p in posts)
+    {
+        <div class="post-card">
+            <div class="post-title">
+                <label>Title :@p.Title</label>
+            </div>
+            <div class="post-creator">
+                <label> Created by: @p.Owner.Username</label>
+            </div>
+            <div class="post-body">
+                <label>@p.Body</label>
+            </div>
+        </div>
+    }
+    </div>
+}
+
+
+
+
+
+
+
+
+
+@code {
+    private IEnumerable<Post>? posts;
+    private string message = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        message = "";
+        try
+        {
+            posts = await PostService.getAsync(null, null);
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+
+    }
+
+}
