@@ -40,24 +40,22 @@
     [CascadingParameter]
     public Task<AuthenticationState> authState { get; set; } = null;
 
-    private string? name;
     private string title = "";
     private string body= "";
+    private ClaimsPrincipal user;
 
     private string message = "";
 
     protected override async void OnInitialized()
     {
         AuthenticationState AuthState = await authState;
-        ClaimsPrincipal user = AuthState.User;
-        name = user.Identity.Name;
+        user = AuthState.User;
 
     }
 
     private async Task Create()
     {
         message = "";
-
         if (string.IsNullOrEmpty(title))
         {
             message = "Cannot create a title-less post!";
@@ -70,7 +68,8 @@
         }
         try
         {
-            await PostService.CreateAsync(new PostCreationDto(name, title, body));
+            await PostService.CreateAsync(new PostCreationDto(user.Identity.Name, title, body));
+
             NavigationManager.NavigateTo("/");
         }
         catch (Exception e)

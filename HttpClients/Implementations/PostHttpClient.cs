@@ -1,7 +1,10 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
+
+using System.Security.Cryptography;
+using System.Text.Json;
 using HttpClients.Interfaces;
 using Shared.Dtos;
-
+using Shared.Models;
 namespace HttpClients.Implementations;
 
 public class PostHttpClient : IPostService
@@ -22,5 +25,20 @@ public class PostHttpClient : IPostService
             string content = await response.Content.ReadAsStringAsync();
             throw new Exception(content);
         }
+    }
+
+    public async Task<ICollection<Post>> getAsync(string? title, string? username)
+    {
+        HttpResponseMessage response = await _client.GetAsync("/post");
+        string content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(content);
+        }
+        ICollection<Post> posts = JsonSerializer.Deserialize<ICollection<Post>>(content, new JsonSerializerOptions
+        {
+           PropertyNameCaseInsensitive = true
+        })!;
+        return posts;
     }
 }
