@@ -7,9 +7,11 @@
 
 <AuthorizeView>
     <Authorized>
+        <label> Hello There ,@context.User.Identity.Name </label>
         <img class="icon" src="img/Logout.png" @onclick="Logout" alt="Logout"/>
     </Authorized>
     <NotAuthorized>
+        <label> Not Logged In </label>
         <img class="icon" src="img/Login.png" @onclick="Login" alt="Login"/>
     </NotAuthorized>
 </AuthorizeView>
