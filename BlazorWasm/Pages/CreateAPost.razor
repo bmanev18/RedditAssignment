@@ -1,0 +1,83 @@
+﻿@page "/CreateAPost"
+@using HttpClients.Interfaces
+@using global::Shared.Dtos
+@using Microsoft.VisualBasic
+@using System.Reflection.Emit
+@using System.Security.Claims
+@using BlazorWasm.Services
+@inject IPostService PostService;
+@inject NavigationManager NavigationManager;
+<h3>CreateAPost</h3>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="post">
+            <div id="postTitle">
+                <label> Title: </label>
+                <input type="text" @bind="title"/>
+            </div>
+
+            <div id="postBody">
+                <label> Body: </label>
+                <input type="text" @bind="body"/>
+            </div>
+            <div class="button-row">
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <label style="color :red"> @message </label>
+                }
+                <button @onclick="Create" class="acceptbtn"> Create </button>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <label> To create a post you need to be logged in. </label>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> authState { get; set; } = null;
+
+    private string? name;
+    private string title = "";
+    private string body= "";
+
+    private string message = "";
+
+    protected override async void OnInitialized()
+    {
+        AuthenticationState AuthState = await authState;
+        ClaimsPrincipal user = AuthState.User;
+        name = user.Identity.Name;
+
+    }
+
+    private async Task Create()
+    {
+        message = "";
+
+        if (string.IsNullOrEmpty(title))
+        {
+            message = "Cannot create a title-less post!";
+            return;
+        }
+        if (string.IsNullOrEmpty(body))
+        {
+            message = "Cannot create an empty post";
+            return;
+        }
+        try
+        {
+            await PostService.CreateAsync(new PostCreationDto(name, title, body));
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            message = e.Message;
+        }
+    }
+
+}

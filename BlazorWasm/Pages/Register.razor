@@ -3,32 +3,35 @@
 @inject IAuthService AuthService
 @inject NavigationManager NavMgr
 
-<div class="card">
-    <h3>Register User</h3>
-    <div class="field">
-        <label>User name:</label>
-        <input type="text" @bind="_userName"/>
-    </div>
-    <div class="field">
-        <label style="text-align: center">Password:</label>
-        <input type="password" @bind="_password"/>
-    </div>
-    <div class="field">
-        <label style="text-align: center">Email:</label>
-        <input type="text" @bind="_email"/>
-    </div>
-    @if (!string.IsNullOrEmpty(_errorLabel))
-    {
+<AuthorizeView>
+    <div class="card">
+        <h3>Register User</h3>
         <div class="field">
-            <label style="color: red">
-                @_errorLabel
-            </label>
+            <label>User name:</label>
+            <input type="text" @bind="_userName"/>
         </div>
-    }
-    <div class="field">
-        <button class="registerbtn" @onclick="RegisterAsync">Register</button>
+        <div class="field">
+            <label style="text-align: center">Password:</label>
+            <input type="password" @bind="_password"/>
+        </div>
+        <div class="field">
+            <label style="text-align: center">Email:</label>
+            <input type="text" @bind="_email"/>
+        </div>
+        @if (!string.IsNullOrEmpty(_errorLabel))
+        {
+            <div class="field">
+                <label style="color: red">
+                    @_errorLabel
+                </label>
+            </div>
+        }
+        <div class="field">
+            <button class="registerbtn" @onclick="RegisterAsync">Register</button>
+        </div>
     </div>
-</div>
+</AuthorizeView>
+
 
 @code {
     private string _userName;

@@ -19,8 +19,28 @@
         "Password": "test",
         "Email": "test"
       },
-      "Title": "posttitle",
-      "Body": "postbody"
+      "Title": "testfromblazor",
+      "Body": "testfromblazor"
+    },
+    {
+      "Id": 2,
+      "Owner": {
+        "Username": "test",
+        "Password": "test",
+        "Email": "test"
+      },
+      "Title": "blazorTest2",
+      "Body": "blazorTest2"
+    },
+    {
+      "Id": 3,
+      "Owner": {
+        "Username": "test1",
+        "Password": "test1",
+        "Email": "test1"
+      },
+      "Title": "test1titlepost",
+      "Body": "test1bodypost"
     }
   ]
 }
