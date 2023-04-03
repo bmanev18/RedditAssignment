@@ -69,6 +69,7 @@
         try
         {
             await PostService.CreateAsync(new PostCreationDto(user.Identity.Name, title, body));
+
             NavigationManager.NavigateTo("/");
         }
         catch (Exception e)

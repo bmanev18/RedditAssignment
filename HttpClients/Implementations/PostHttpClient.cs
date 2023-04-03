@@ -1,10 +1,10 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
+
 using System.Security.Cryptography;
 using System.Text.Json;
 using HttpClients.Interfaces;
 using Shared.Dtos;
 using Shared.Models;
-
 namespace HttpClients.Implementations;
 
 public class PostHttpClient : IPostService
