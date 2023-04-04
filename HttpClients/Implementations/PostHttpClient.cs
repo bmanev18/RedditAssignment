@@ -29,7 +29,9 @@ public class PostHttpClient : IPostService
 
     public async Task<ICollection<Post>> getAsync(string? title, string? username)
     {
-        HttpResponseMessage response = await _client.GetAsync("/post");
+        string query = ConstructQuery(username, title);
+        
+        HttpResponseMessage response = await _client.GetAsync("/post"+query);
         string content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
@@ -56,5 +58,22 @@ public class PostHttpClient : IPostService
             PropertyNameCaseInsensitive = true
         })!;
         return post;
+    }
+    
+    private static string ConstructQuery(string? username, string? title)
+    {
+        string query = "";
+        if (!string.IsNullOrEmpty(username))
+        {
+            query += $"?username={username}";
+        }
+        
+        if (!string.IsNullOrEmpty(title))
+        {
+            query += string.IsNullOrEmpty(query) ? "?" : "&";
+            query += $"titlecontains={title}";
+        }
+
+        return query;
     }
 }
