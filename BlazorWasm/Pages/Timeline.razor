@@ -1,10 +1,47 @@
-@page "/Timeline"
+@page "/"
 @using global::Shared.Models
 @using HttpClients.Interfaces
 @using System.ComponentModel.DataAnnotations
 @inject IPostService PostService
-@inject NavigationManager navManager;
+@inject NavigationManager NavManager;
 <h3>Timeline</h3>
+<div class="filter-bar">
+    <div class="filters-container">
+        <img src="img/@(_doShowFilters ? "clear_" : "")funnel.png" class="funnel" @onclick="@(() => _doShowFilters = !_doShowFilters)" alt="Funnel"/>
+        @if (_doShowFilters)
+        {
+            <div class="filter">
+                <label>Username:</label>
+                <input type="text" @bind="_usernameFilter"/>
+            </div>
+            @*<div class="filter">
+                <label>User id:</label>
+                <input type="number" @bind="userIdFilter"/>
+            </div>*@
+            @*<div class="filter">
+                <label>Is completed?</label>
+                <select @bind="completedStatusFilter">
+                    <option value="all">All</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>*@
+            <div class="filter">
+                <label>Title contains:</label>
+                <input type="text" @bind="_titleContainsFilter"/>
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    <button @onclick="OnInitializedAsync">Load</button>
+</div>
+
+
+
+
+
 
 @if (posts == null)
 {
@@ -18,7 +55,7 @@ else
 {
     @foreach (var p in posts)
     {
-        <div class="post-card" @onclick="@(() => navManager.NavigateTo($"/OpenPost/{p.Id}"))">
+        <div class="post-card" @onclick="@(() => NavManager.NavigateTo($"/OpenPost/{p.Id}"))">
             <div class="post-title">
                 <label>Title :@p.Title</label>
             </div>
@@ -44,12 +81,16 @@ else
     private IEnumerable<Post>? posts;
     private string message = "";
 
+    private bool _doShowFilters = false;
+    private string? _usernameFilter;
+    private string? _titleContainsFilter;
+
     protected override async Task OnInitializedAsync()
     {
         message = "";
         try
         {
-            posts = await PostService.getAsync(null, null);
+            posts = await PostService.getAsync(_titleContainsFilter, _usernameFilter);
         }
         catch (Exception e)
         {
@@ -57,3 +98,5 @@ else
         }
 
     }
+
+}
