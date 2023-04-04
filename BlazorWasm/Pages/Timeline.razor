@@ -3,6 +3,7 @@
 @using HttpClients.Interfaces
 @using System.ComponentModel.DataAnnotations
 @inject IPostService PostService
+@inject NavigationManager navManager;
 <h3>Timeline</h3>
 
 @if (posts == null)
@@ -15,10 +16,9 @@ else if (!posts.Any())
 }
 else
 {
-    <div class="posts-container">
     @foreach (var p in posts)
     {
-        <div class="post-card">
+        <div class="post-card" @onclick="@(() => navManager.NavigateTo($"/OpenPost/{p.Id}"))">
             <div class="post-title">
                 <label>Title :@p.Title</label>
             </div>
@@ -30,7 +30,6 @@ else
             </div>
         </div>
     }
-    </div>
 }
 
 

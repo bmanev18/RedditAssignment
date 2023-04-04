@@ -7,4 +7,5 @@ public interface IPostService
 {
     Task CreateAsync(PostCreationDto dto);
     Task<ICollection<Post>> getAsync(string? title, string? username);
+    Task<Post> getAsyncByID(int id);
 }

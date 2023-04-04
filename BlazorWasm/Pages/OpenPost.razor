@@ -1,0 +1,44 @@
+﻿@page "/OpenPost/{id:int}"
+@using HttpClients.Interfaces
+@using global::Shared.Models
+@inject IPostService PostService;
+@inject NavigationManager navManager;
+
+<h3>@title</h3>
+<div class="post-card">
+    <div class="post-creator">
+                <label> @creator</label>
+            </div>
+            <div class="post-body">
+                <label>@body</label>
+            </div>
+        </div>
+@code {
+    
+    [Parameter]
+    public int id { get; set;}
+
+    private Post p;
+    private string title;
+    private string creator;
+    private string body;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            p = await PostService.getAsyncByID(id);
+            title = p.Title;
+            creator = p.Owner.Username;
+            body = p.Body;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+    }
+    
+    
+}

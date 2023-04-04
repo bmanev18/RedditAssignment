@@ -16,7 +16,7 @@ public class PostLogic : IPostLogic
         _postDao = postDao;
         _userDao = userDao;
     }
-    
+
 
     public async Task<Post> CreateAsync(PostCreationDto PostCreationDto)
     {
@@ -27,7 +27,7 @@ public class PostLogic : IPostLogic
         }
 
         ValidatePost(PostCreationDto);
-        Post post = new Post(user,PostCreationDto.title,PostCreationDto.body);
+        Post post = new Post(user, PostCreationDto.title, PostCreationDto.body);
         Post created = await _postDao.CreateAsync(post);
         return created;
     }
@@ -35,6 +35,11 @@ public class PostLogic : IPostLogic
     public Task<IEnumerable<Post>> getAllAsync(SearchPostParametersDto dto)
     {
         return _postDao.GetAsync(dto);
+    }
+
+    public Task<Post> getById(int id)
+    {
+        return _postDao.GetByIdAsync(id);
     }
 
 
@@ -49,10 +54,5 @@ public class PostLogic : IPostLogic
         {
             throw new Exception("Post cannot be longer than 1000 characters");
         }
-    }
-
-    public Task<Post> getAllAsync()
-    {
-        throw new NotImplementedException();
     }
 }
