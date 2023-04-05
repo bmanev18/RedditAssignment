@@ -14,18 +14,6 @@
                 <label>Username:</label>
                 <input type="text" @bind="_usernameFilter"/>
             </div>
-            @*<div class="filter">
-                <label>User id:</label>
-                <input type="number" @bind="userIdFilter"/>
-            </div>*@
-            @*<div class="filter">
-                <label>Is completed?</label>
-                <select @bind="completedStatusFilter">
-                    <option value="all">All</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
-            </div>*@
             <div class="filter">
                 <label>Title contains:</label>
                 <input type="text" @bind="_titleContainsFilter"/>
@@ -57,13 +45,10 @@ else
     {
         <div class="post-card" @onclick="@(() => NavManager.NavigateTo($"/OpenPost/{p.Id}"))">
             <div class="post-title">
-                <label>Title :@p.Title</label>
+                <label>@p.Title</label>
             </div>
             <div class="post-creator">
-                <label> Created by: @p.Owner.Username</label>
-            </div>
-            <div class="post-body">
-                <label>@p.Body</label>
+                <label> u/@p.Owner.Username</label>
             </div>
         </div>
     }

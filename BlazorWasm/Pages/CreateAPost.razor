@@ -7,19 +7,17 @@
 @using BlazorWasm.Services
 @inject IPostService PostService;
 @inject NavigationManager NavigationManager;
-<h3>CreateAPost</h3>
+<h3>Create A Post</h3>
 
 <AuthorizeView>
     <Authorized>
         <div class="post">
             <div id="postTitle">
-                <label> Title: </label>
-                <input type="text" @bind="title"/>
+                <input type="text" @bind="title" id="textInput" placeholder="Title"/>
             </div>
 
             <div id="postBody">
-                <label> Body: </label>
-                <input type="text" @bind="body"/>
+                <textarea @bind="body" id="bodyInput" maxlength="1000"> Body</textarea>
             </div>
             <div class="button-row">
                 @if (!string.IsNullOrEmpty(message))

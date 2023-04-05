@@ -4,6 +4,7 @@
 @inject NavigationManager NavMgr
 
 <AuthorizeView>
+    <NotAuthorized>
     <div class="card">
         <h3>Register User</h3>
         <div class="field">
@@ -30,6 +31,7 @@
             <button class="registerbtn" @onclick="RegisterAsync">Register</button>
         </div>
     </div>
+    </NotAuthorized>
 </AuthorizeView>
 
 
