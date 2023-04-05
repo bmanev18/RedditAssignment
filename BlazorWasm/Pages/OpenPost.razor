@@ -4,19 +4,23 @@
 @inject IPostService PostService;
 @inject NavigationManager navManager;
 
-<h3>@title</h3>
-<div class="post-card">
-    <div class="post-creator">
-                <label> @creator</label>
-            </div>
-            <div class="post-body">
-                <label>@body</label>
-            </div>
+
+<div class=post-card>
+    <div class=title-card>
+        <div class="postTitle">
+            <label>@title</label>
         </div>
+        <label id="postCreator"> u/@creator</label>
+    </div>
+    <div class="post-body">
+        <label>@body</label>
+    </div>
+</div>
+
 @code {
-    
+
     [Parameter]
-    public int id { get; set;}
+    public int id { get; set; }
 
     private Post p;
     private string title;
@@ -31,14 +35,12 @@
             title = p.Title;
             creator = p.Owner.Username;
             body = p.Body;
-
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
-
     }
-    
-    
+
+
 }
