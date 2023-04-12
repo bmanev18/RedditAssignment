@@ -58,7 +58,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            Post post = await _postLogic.getById(id);
+            Post post = await _postLogic.getByIdAsync(id);
             return Ok(post);
 
         }

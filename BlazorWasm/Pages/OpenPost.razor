@@ -22,7 +22,7 @@
     [Parameter]
     public int id { get; set; }
 
-    private Post p;
+    private Post post;
     private string title;
     private string creator;
     private string body;
@@ -31,10 +31,10 @@
     {
         try
         {
-            p = await PostService.getAsyncByID(id);
-            title = p.Title;
-            creator = p.Owner.Username;
-            body = p.Body;
+            post = await PostService.getAsyncByID(id);
+            title = post.Title;
+            creator = post.Owner.Username;
+            body = post.Body;
         }
         catch (Exception e)
         {

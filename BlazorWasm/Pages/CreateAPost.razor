@@ -36,7 +36,7 @@
 @code {
 
     [CascadingParameter]
-    public Task<AuthenticationState> authState { get; set; } = null;
+    public Task<AuthenticationState> AuthState { get; set; } = null;
 
     private string title = "";
     private string body= "";
@@ -46,7 +46,7 @@
 
     protected override async void OnInitialized()
     {
-        AuthenticationState AuthState = await authState;
+        AuthenticationState AuthState = await this.AuthState;
         user = AuthState.User;
 
     }
