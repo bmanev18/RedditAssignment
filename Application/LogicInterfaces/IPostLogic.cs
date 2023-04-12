@@ -9,5 +9,5 @@ public interface IPostLogic
     Task<IEnumerable<Post>> getAllAsync(SearchPostParametersDto dto);
 
 
-    Task<Post> getById(int id);
+    Task<Post> getByIdAsync(int id);
 }

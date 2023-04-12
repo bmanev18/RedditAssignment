@@ -37,7 +37,7 @@ public class PostLogic : IPostLogic
         return _postDao.GetAsync(dto);
     }
 
-    public Task<Post> getById(int id)
+    public Task<Post> getByIdAsync(int id)
     {
         return _postDao.GetByIdAsync(id);
     }

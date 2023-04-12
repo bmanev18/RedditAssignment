@@ -4,8 +4,8 @@ public class Post
 {
  public int Id { get; set; }
  public User Owner { get; }
- public String Title { get; }
- public String Body { get; }
+ public string Title { get; }
+ public string Body { get; }
 
  public Post(User owner, string title, string body)
  {
