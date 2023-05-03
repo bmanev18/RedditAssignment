@@ -29,8 +29,15 @@ public class UserEFCDao : IUserDao
 
     }
 
-    public Task DeleteAsync(string username)
+    public async Task DeleteAsync(string username)
     {
-        throw new NotImplementedException();
+        User? existing = await GetByUsernameAsync(username);
+        if (existing == null)
+        {
+            throw new Exception("Such User Does Not Exist");
+        }
+
+        context.users.Remove(existing);
+        await context.SaveChangesAsync();
     }
 }

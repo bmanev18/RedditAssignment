@@ -1,4 +1,6 @@
 ﻿using Application.DaoInterfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Shared.Dtos;
 using Shared.Models;
 
@@ -6,25 +8,42 @@ namespace EFCDataAccess.DAOs;
 
 public class PostEFCDao : IPostDao
 {
-    private readonly PostContext _context;
+    private readonly PostContext context;
 
     public PostEFCDao(PostContext context)
     {
-        context = _context;
+        this.context = context;
     }
 
-    public Task<Post> CreateAsync(Post post)
+    public async Task<Post> CreateAsync(Post post)
     {
-        throw new NotImplementedException();
+        EntityEntry<Post> added = await context.posts.AddAsync(post);
+        await context.SaveChangesAsync();
+        return added.Entity;
     }
 
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto dto)
+    public async Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto dto)
     {
-        throw new NotImplementedException();
+        IQueryable<Post> query = context.posts.Include(post => post.Owner).AsQueryable();
+        if (!string.IsNullOrEmpty(dto.username))
+        {
+            query = query.Where(post => post.Owner.Username.ToLower().Equals(dto.username.ToLower()));
+        }
+
+        if (!string.IsNullOrEmpty(dto.title))
+        {
+            query = query.Where(post => post.Title.ToLower().Contains(dto.title.ToLower()));
+        }
+
+        List<Post> posts = await query.ToListAsync();
+        return posts;
     }
 
-    public Task<Post> GetByIdAsync(int id)
+    public async Task<Post> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Post? post = await context.posts
+            .Include(p => p.Owner)
+            .SingleOrDefaultAsync(p => p.Id == id);
+        return post;
     }
 }
